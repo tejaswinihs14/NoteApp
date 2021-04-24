@@ -13,6 +13,7 @@
   </div>
   <div class="card-wrap"  v-if="savedNotes.length > 0" >
     <div class="cards" v-for='savedNote in savedNotes' :key="savedNote" >
+      <div class="delete-btn" @click="deletebtn(savedNote.id)">⛔</div>
       <p class="title">{{savedNote.title}}</p>
       <p class="detail">{{savedNote.detail}}</p>
     </div>
@@ -47,8 +48,13 @@ export default {
         this.modal = false; 
       },
 
+    deletebtn(id){
+      this.savedNotes = this.savedNotes.filter(note => note.id !== id)
+    },
+
     submitNote(){
       let tempNote = {...this.note};
+      tempNote["id"] = this.savedNotes.length + 1
       this.savedNotes.push(tempNote);
       this.note.title='';
       this.note.detail='';
@@ -129,6 +135,7 @@ body{
   cursor: pointer;
   padding:16px;
   margin-bottom: 20px;
+  position: relative;
 
     &:hover{
       transform: scale(1.1);
@@ -145,6 +152,19 @@ body{
     font-size: 12px;
     font-weight: 500;
     margin: unset;
+  }
+
+  .delete-btn{
+      padding: 8px 10px 8px 10px;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      background-color: #8EE4AF;
+      border: none;
+      outline: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
   }
 }
 }
